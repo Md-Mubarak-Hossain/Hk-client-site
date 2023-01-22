@@ -1,9 +1,10 @@
 import React from 'react';
+import Sector from '../shared/Sector';
 
 const Home = () => {
     return (
         <div>
-            home
+          <Sector></Sector>
         </div>
     );
 };
