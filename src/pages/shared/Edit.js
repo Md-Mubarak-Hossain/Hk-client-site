@@ -1,59 +1,77 @@
 import React, { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
 
-const Sector = () => {
+const Edit = () => {
+    const user=useLoaderData()
+    
+    const[userData,setUser]=useState(user)
+    const[update,setUpdate]=useState('')
    
-    const[terms,setTerms]=useState('')
-    const handleSubmit = event => {
-        event.preventDefault();
-        const form = event.target;
-        const name = form.name.value;
-        const email = form.email.value;
-        const e = document.getElementById("ddlViewBy");
-        const sector = e.options[e.selectedIndex].text;
-        console.log(sector)
-        const dataPost={
-            name,email,sector,terms
-        }
-        fetch('https://hk-server.vercel.app/user',{
-            method:"POST",
-            headers:{
-                'content-type':'application/json'
-            },
-            body:JSON.stringify(dataPost)
-        })
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-            if(data.acknowledged)
-            {
-                alert('Successfully user added')
-                form.reset()
-            }
-        })
-        console.log(dataPost)
-       
+   
+const handleSubmit=event=>{
+event.preventDefault()
+const e = document.getElementById("ddlViewBy");
+const sector = e.options[e.selectedIndex].text;
+const dataPost={
+   sector, ...userData
+}
+fetch(`https://hk-server.vercel.app/user/${userData._id}`,{
+    method: 'PATCH',
+    headers: {
+        'content-type': 'application/json'
+    },
+    body: JSON.stringify(dataPost)
+})
+.then(res=>res.json())
+.then(data=>{
+    console.log(data)
+    if(data.modifiedCount>0){
+       alert('successfully userData')
+       setUpdate('Successfully update this user value')
+      
     }
+   
+})
+
+}
+const onChangeable=event=>{
+   
+    const value = event.target.value;
+    const field = event.target.name;
+    const newData = { ...userData }
+    newData[field] = value;
+    setUser(newData);
+}
     return (
-        <>
-        <div className="w-full flex flex-col  shadow-md rounded p-4 mb-2 lg:px-8 lg:pt-6 lg:pb-8 lg:mb-4 text-start">
-            <div className='w-full border py-5 px-5 lg:px-10 lg:w-1/2 mx-auto rounded-lg'>
-                <h2 className='uppercase text-center w-full'>User input form</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block  text-sm font-bold mb-2" for="name">
-                            Name
-                        </label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" name='name' placeholder="enter name" required/>
-                    </div>
-                    <div className="mb-4">
-                        <label className="block  text-sm font-bold mb-2" for="email">
-                            Email
-                        </label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" name='email' placeholder="email" required/>
-                    </div>
-                    <div className="mb-6">
-                   
-                    <select id="ddlViewBy" className="select select-secondary w-full">
+        <div>
+            <form onSubmit={handleSubmit}>
+            <div className="hero min-h-screen bg-base-200">
+  <div className="hero-content flex-col lg:flex-row-reverse">
+    <div className="text-center lg:text-left">
+      <h1 className="text-5xl font-bold">Update!</h1>
+      <p className='text-primary'>{update}</p>  
+    </div>
+    <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <div className="card-body">
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Name</span>
+          </label>
+          <input type="text" name="name" onChange={onChangeable} defaultValue={userData.name} className="input input-bordered" />
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Email</span>
+          </label>
+          <input type="email" name="email" onChange={onChangeable} defaultValue={userData.email}className="input input-bordered" />
+         
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Sector</span>
+          </label>
+          {/* <input type="text" name="sector" onChange={onChangeable} defaultValue={userData.sector}className="input input-bordered" /> */}
+          <select id="ddlViewBy" className="select select-secondary w-full">
                     <option value="1" disabled selected='selected'>
                     Pick the Sectors you are currently involved in.
                     </option>
@@ -137,25 +155,17 @@ const Sector = () => {
                         <option value="112">Road</option>
                         <option value="113">Water</option>
                     </select>
-                    </div>
-                    <div className="mb-6">
-                       <div className="form-control">
-                         <label className="cursor-pointer flex">  
-                             <input type="checkbox" onClick={()=>setTerms("Agree to terms")}  value="Agree to terms" className="checkbox checkbox-accent mx-2 w-5 h-5" required/> 
-                            <span className="label-text">Agree to terms</span>
-                        </label>
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center justify-between">
-                        <button className="btn w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Save
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div >
-    </>
+        </div>
+        <div className="form-control mt-6">
+          <button className="btn btn-primary uppercase">Update now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            </form>  
+        </div>
     );
 };
 
-export default Sector;
+export default Edit;
