@@ -38,8 +38,7 @@ const View = () => {
             user.map(u=><div className="hero p-2 my-5 bg-violet-900 shadow-2xl flex flex-col place-items-start" key={u._id}>
             <div className="hero-content">
               <div className="max-w-md flex flex-col place-items-start lg:h-72 lg:my-10">
-                <h1 className="text-xl font-bold uppercase">Name:{u.name}</h1>
-                <p className="py-2"><span className='px-1'>Email:</span>{u.email}</p>
+                <h1 className="text-xl font-bold uppercase">Name:{u.name}</h1>              
                 <p className="py-2"><span className='px-1'>Sector:</span>{u.sector}</p>
                 <p className="py-2"><span className='px-1'>Terms:</span>{u.terms}</p>
                 <div className='lg:flex w-full'>

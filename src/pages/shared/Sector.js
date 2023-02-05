@@ -6,13 +6,12 @@ const Sector = () => {
     const handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
-        const name = form.name.value;
-        const email = form.email.value;
+        const name = form.name.value;     
         const e = document.getElementById("ddlViewBy");
         const sector = e.options[e.selectedIndex].text;
         console.log(sector)
         const dataPost={
-            name,email,sector,terms
+            name,sector,terms
         }
         fetch('https://hk-server.vercel.app/user',{
             method:"POST",
@@ -39,18 +38,10 @@ const Sector = () => {
             <div className='w-full border py-5 px-5 lg:px-10 lg:w-1/2 mx-auto rounded-lg'>
                 <h2 className='uppercase text-center w-full'>User input form</h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block  text-sm font-bold mb-2" for="name">
-                            Name
-                        </label>
+                    <div className="my-4">                        
                         <input className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" name='name' placeholder="enter name" required/>
                     </div>
-                    <div className="mb-4">
-                        <label className="block  text-sm font-bold mb-2" for="email">
-                            Email
-                        </label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" name='email' placeholder="email" required/>
-                    </div>
+                    
                     <div className="mb-6">
                    
                     <select id="ddlViewBy" className="select select-secondary w-full">

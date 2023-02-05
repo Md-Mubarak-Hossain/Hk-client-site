@@ -58,14 +58,7 @@ const onChangeable=event=>{
             <span className="label-text">Name</span>
           </label>
           <input type="text" name="name" onChange={onChangeable} defaultValue={userData.name} className="input input-bordered" />
-        </div>
-        <div className="form-control">
-          <label className="label">
-            <span className="label-text">Email</span>
-          </label>
-          <input type="email" name="email" onChange={onChangeable} defaultValue={userData.email}className="input input-bordered" />
-         
-        </div>
+        </div>      
         <div className="form-control">
           <label className="label">
             <span className="label-text">Sector</span>
